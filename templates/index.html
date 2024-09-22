@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Med Bot</title>
+    <link rel="stylesheet" href="/static/assets/css/styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <style>
+        /* CSS for Bot Message and Typing Animation */
+        .bot-message {
+            display: flex;
+            align-items: flex-start;
+            margin: 10px 0;
+        }
+
+        .bot-message img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+            border-radius: 50%;
+        }
+
+        .bot-message-content {
+            background-color: #f1f1f1;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 70%;
+            position: relative;
+        }
+
+        /* New typing animation */
+        .typing-effect {
+            display: inline-block;
+            position: relative;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 2px solid #333;
+
+            animation: typing 3.5s steps(30, end), blink-caret .75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #333; }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Sidebar Navbar -->
+        <nav class="sidebar">
+            <div class="navbar-header">
+                <span class="navbar-title">Med Bot</span>
+            </div>
+            <div class="navbar-collapse">
+                <ul class="navbar-menu">
+                    <li><a href="#" data-chat="medical-advice"><i class="bi bi-hospital"></i></a></li>
+                    <li><a href="#" data-chat="wound-detection"><i class="bi bi-image"></i></a></li>
+                    <li><a href="#" data-chat="custom-feature"><i class="bi bi-capsule"></i></a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Chat Interfaces -->
+        <div class="chat-container">
+            <section id="medical-advice" class="msger active-chat">
+                <header class="msger-header">
+                    <div class="msger-header-title">
+                        <i class="fas fa-comment-alt"></i> Medical Advice
+                    </div>
+                    <div class="msger-header-options">
+                        <span><i class="fas fa-cog"></i></span>
+                    </div>
+                </header>
+                <main class="msger-chat">
+                    <div class="bot-message">
+                        <img src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png" alt="Bot Image">
+                        <div class="bot-message-content">
+                            <span class="typing-effect">Welcome to Medical Advice! How can I assist you today?</span>
+                        </div>
+                    </div>
+                </main>
+                <form class="msger-inputarea">
+                    <input type="text" class="msger-input" placeholder="Enter your message...">
+                    <button type="submit" class="msger-send-btn">
+                        <i class="bi bi-send"></i>
+                    </button>
+                </form>
+            </section>
+
+            <section id="wound-detection" class="msger">
+                <header class="msger-header">
+                    <div class="msger-header-title">
+                        <i class="fas fa-comment-alt"></i> Wound Detection
+                    </div>
+                    <div class="msger-header-options">
+                        <span><i class="fas fa-cog"></i></span>
+                    </div>
+                </header>
+                <main class="msger-chat">
+                    <div class="bot-message">
+                        <img src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png" alt="Bot Image">
+                        <div class="bot-message-content">
+                            <span class="typing-effect">Welcome to Wound Detection! Please upload a photo of your wound.</span>
+                        </div>
+                    </div>
+                </main>
+                <form class="msger-inputarea">
+                    <div class="image-preview-container" id="image-preview-container"></div>
+                    <input type="file" id="image-upload" class="image-upload" accept="image/*" style="display:none">
+                    <label for="image-upload" class="upload-label">
+                        <i class="bi bi-paperclip"></i>
+                    </label>
+                    <input type="text" class="msger-input" placeholder="Enter your message...">
+                    <button type="submit" class="msger-send-btn">
+                        <i class="bi bi-send"></i>
+                    </button>
+                </form>
+            </section>
+
+            <section id="custom-feature" class="msger">
+                <header class="msger-header">
+                    <div class="msger-header-title">
+                        <i class="fas fa-comment-alt"></i> Custom Feature
+                    </div>
+                    <div class="msger-header-options">
+                        <span><i class="fas fa-cog"></i></span>
+                    </div>
+                </header>
+                <main class="msger-chat">
+                    <div class="bot-message">
+                        <img src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png" alt="Bot Image">
+                        <div class="bot-message-content">
+                            <span class="typing-effect">Welcome to Custom Feature! How can I help you?</span>
+                        </div>
+                    </div>
+                </main>
+                <form class="msger-inputarea">
+                    <input type="text" class="msger-input" placeholder="Enter your message...">
+                    <button type="submit" class="msger-send-btn">
+                        <i class="bi bi-send"></i>
+                    </button>
+                </form>
+            </section>
+        </div>
+    </div>
+
+    <script src="../static/assets/js/script.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const welcomeElements = document.querySelectorAll('.welcome-message-animation');
+
+        welcomeElements.forEach((element) => {
+            const message = element.getAttribute('data-message');
+            let index = 0;
+
+            function type() {
+                if (index < message.length) {
+                    element.textContent += message.charAt(index);
+                    index++;
+                    setTimeout(type, 100); // Adjust the speed of typing here
+                } else {
+                    element.classList.remove('welcome-message-animation'); // Remove class once typing is done
+                }
+            }
+
+            setTimeout(type, 500); // Optional delay before typing starts
+        });
+    });
+</script>
+
+</body>
+</html>
